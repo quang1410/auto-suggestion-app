@@ -12,8 +12,8 @@ const ResultBlock: React.FC<ResultBlockProps> = ({ type, data }) => {
       <ul>
         {data &&
           data.map((item) => (
-            <li key={item.ID}>
-              <a href={item.URL}>{item.Title}</a>
+            <li key={item.id}>
+              <a href={item.url}>{item.title}</a>
             </li>
           ))}
       </ul>

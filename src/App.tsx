@@ -6,7 +6,6 @@ import './App.css';
 function App() {
   return (
     <div className="App">
-      <h1>Auto-suggestion Feature</h1>
       <div className="search-container">
         <SuggestionBox />
       </div>

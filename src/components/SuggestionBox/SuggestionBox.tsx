@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { SearchBox } from '../SearchBox';
 import { ResultBlock } from '../ResultBlock';
@@ -9,22 +9,54 @@ const SuggestionBox: React.FC = () => {
   const [showTerm, setShowTerm] = useState(true);
   const [showCollection, setShowCollection] = useState(true);
   const [showProduct, setShowProduct] = useState(true);
-  const [minChars, setMinChars] = useState(2);
-  const [suggestions, setSuggestions] = useState<any>([]);
+  const [minChars, setMinChars] = useState(1);
+  const [suggestions, setSuggestions] = useState<any>({
+    collection: [],
+    products: [],
+    term: [],
+  });
+  const [data, setData] = useState<any>({
+    collection: [],
+    products: [],
+    term: [],
+  });
 
-  const handleInputChange = async (input: string) => {
-    console.log(input)
-    if (input.length >= minChars) {
-      // Replace the API_URL with your JSON Generator API URL
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get('https://api.json-generator.com/templates/KTI5CZl-fHUh/data?access_token=ojhs9l4x3reejpz79gevd4eh1xc2pn7dr7t1ss45');
-        console.log('response', response);
-        setSuggestions(response.data);
+        const responseCollection = await axios.get('https://api.json-generator.com/templates/KTI5CZl-fHUh/data?access_token=ojhs9l4x3reejpz79gevd4eh1xc2pn7dr7t1ss45');
+        const responseProducts = await axios.get('https://api.json-generator.com/templates/oAfva9ERlocD/data?access_token=ojhs9l4x3reejpz79gevd4eh1xc2pn7dr7t1ss45');
+        const responseSuggestionTerms = await axios.get('https://api.json-generator.com/templates/FIwEPy2AFl6H/data?access_token=ojhs9l4x3reejpz79gevd4eh1xc2pn7dr7t1ss45');
+
+        setData({
+          collection: responseCollection.data,
+          product: responseProducts.data,
+          term: responseSuggestionTerms.data,
+        });
       } catch (error) {
         console.error('Error fetching suggestions:', error);
       }
+    };
+
+    fetchData();
+  }, []);
+
+  const handleInputChange = async (input: string) => {
+    console.log(input);
+    console.log('data', data);
+    console.log('setSuggestions', suggestions);
+    if (input.length >= minChars) {
+      setSuggestions({
+        collection: data.collection.filter((item: any) => item.title.includes(input)),
+        products: data.product.filter((item: any) => item.title.includes(input)),
+        term: data.term.filter((item: any) => item.title.includes(input)),
+      })
     } else {
-      setSuggestions([]);
+      setSuggestions({
+        collection: [],
+        products: [],
+        term: [],
+      });
     }
   };
 
@@ -32,9 +64,9 @@ const SuggestionBox: React.FC = () => {
     <div className="suggestion-box">
       <SearchBox onInputChange={handleInputChange} />
       {/* Display the ResultBlock components based on settings */}
-      {showTerm && <ResultBlock type="Term" data={suggestions.Term} />}
-      {showCollection && <ResultBlock type="Collection" data={suggestions.Collection} />}
-      {showProduct && <ResultBlock type="Product" data={suggestions.Product} />}
+      {showTerm && <ResultBlock type="Term" data={suggestions.term} />}
+      {showCollection && <ResultBlock type="Collection" data={suggestions.collection} />}
+      {showProduct && <ResultBlock type="Product" data={suggestions.product} />}
       <SettingsPanel
         showTerm={showTerm}
         showCollection={showCollection}
