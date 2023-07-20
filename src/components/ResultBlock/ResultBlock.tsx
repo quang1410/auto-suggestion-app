@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import { device } from '../../utils/constantly';
 
 type CardType = {
   id?: string;
@@ -15,7 +16,6 @@ type ResultBlockProps = {
 };
 
 const ResultBlockStyled = styled.div`
-  width: 400px;
   margin: 10px 0;
   background-color: #fff;
   overflow: hidden;
@@ -34,7 +34,7 @@ const ResultBlockStyled = styled.div`
     cursor: pointer;
     margin-bottom: 10px;
     padding: 8px 20px;
-    height: 100px;
+    height: 50px;
   }
 
   .result-card img {
@@ -42,6 +42,14 @@ const ResultBlockStyled = styled.div`
     object-fit: cover;
     object-position: center;
     margin-right: 20px;
+  }
+
+  @media ${device.mobileS} { 
+    width: 250px;
+  }
+
+  @media ${device.tablet} { 
+    width: 375px;
   }
 `;
 
@@ -61,9 +69,9 @@ const ResultBlock = ({ type, data, onClick }: ResultBlockProps) => {
               alt=""
             />}
             <div className="result-detail">
-              <h4>{item.title}</h4>
-              {item.brand && <h5>{item.brand}</h5>}
-              {item.price && <p>{`$${item.price}`}</p>}
+              <span>{item.title}</span>
+              {item.brand && <p>{item.brand}</p>}
+              {item.price && <b>{`$${item.price}`}</b>}
             </div>
           </div>
         ))}

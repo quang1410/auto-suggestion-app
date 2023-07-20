@@ -1,5 +1,6 @@
 import React, { useId } from 'react';
 import { styled } from 'styled-components';
+import { device } from '../../utils/constantly';
 
 type InputTypeProps = {
   onInputChange: (input: string) => void;
@@ -12,10 +13,8 @@ type InputTypeProps = {
 };
 
 const InputTypeStyled = styled.div<{width?: string}>`
-  width: ${(props) => props.width ? props.width : '375px'};
   position: relative;
   transition: all 0.5s ease;
-  margin-top: 12px;
 
   label {
     display: inline-block;
@@ -45,6 +44,14 @@ const InputTypeStyled = styled.div<{width?: string}>`
     background: transparent;
     transform: translate(-50%, -50%);
     border: none;
+  }
+
+  @media ${device.mobileS} { 
+    width: 250px;
+  }
+
+  @media ${device.tablet} { 
+    width: ${(props) => props.width ? props.width : '375px'};
   }
 `;
 
