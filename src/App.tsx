@@ -1,5 +1,5 @@
 import React from 'react';
-import { SuggestionBox } from './components/SuggestionBox';
+import { SuggestionBox } from './Containers/SuggestionBox';
 
 import './App.css';
 

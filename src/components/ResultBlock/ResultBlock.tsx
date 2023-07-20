@@ -1,4 +1,3 @@
-import React from 'react';
 import { styled } from 'styled-components';
 
 type CardType = {
@@ -12,6 +11,7 @@ type CardType = {
 type ResultBlockProps = {
   type: string;
   data: CardType[];
+  onClick?: (title: string) => void;
 };
 
 const ResultBlockStyled = styled.div`
@@ -45,13 +45,17 @@ const ResultBlockStyled = styled.div`
   }
 `;
 
-const ResultBlock = ({ type, data }: ResultBlockProps) => {
+const ResultBlock = ({ type, data, onClick }: ResultBlockProps) => {
+  const handleClick = (title: string = '') => {
+    onClick && onClick(title);
+  };
+
   return (
     <ResultBlockStyled>
-      <h3 className="result-title">{type}</h3>
+      {data.length > 0 && <h3 className="result-title">{type}</h3>}
       {data &&
         data.map(item => (
-          <div className="result-card" key={item.id}>
+          <div className="result-card" key={item.id} onClick={handleClick.bind(this, item.title)}>
             {item.url && <img
               src={item.url}
               alt=""

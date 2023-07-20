@@ -7,10 +7,3 @@
 body {
 	background-image: linear-gradient(to right, #4daf54, #3d8880);
 }
-
-.suggestion-box {
-  display: flex;
-  flex-direction: column;
-  max-width: 500px;
-  margin: 0 auto;
-}

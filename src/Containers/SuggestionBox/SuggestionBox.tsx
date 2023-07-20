@@ -1,16 +1,24 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-import { SearchBox } from '../SearchBox';
-import { ResultBlock } from '../ResultBlock';
-import { SettingsPanel } from '../SettingsPanel';
+import { InputType } from '../../components/InputType';
+import { ResultBlock } from '../../components/ResultBlock';
+import { SettingsPanel } from '../../components/SettingsPanel';
 import { SuggestionsType } from '../../types/type';
+import { styled } from 'styled-components';
 
-const SuggestionBox: React.FC = () => {
+const SuggestionBoxStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: 0 auto;
+`;
+
+const SuggestionBox = () => {
   const [showTerm, setShowTerm] = useState(true);
   const [showCollection, setShowCollection] = useState(true);
   const [showProduct, setShowProduct] = useState(true);
-  const [minChars, setMinChars] = useState(1);
+  const [minChars, setMinChars] = useState<string>('1');
   const [suggestions, setSuggestions] = useState<SuggestionsType>({
     collections: [],
     products: [],
@@ -21,6 +29,7 @@ const SuggestionBox: React.FC = () => {
     products: [],
     suggestion_terms: [],
   });
+  const [valueSearch, setValueSearch] = useState<string>('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,14 +52,12 @@ const SuggestionBox: React.FC = () => {
   }, []);
 
   const handleInputChange = async (input: string) => {
-    console.log(input);
-    console.log('data', data);
-    console.log('setSuggestions', suggestions);
-    if (input.length >= minChars) {
+    setValueSearch(input);
+    if (input.length >= Number(minChars)) {
       setSuggestions({
-        collections: data.collections.filter((item: any) => item.title.includes(input)),
-        products: data.products.filter((item: any) => item.title.includes(input)),
-        suggestion_terms: data.suggestion_terms.filter((item: any) => item.title.includes(input)),
+        collections: data.collections.filter((item) => item.title.toLocaleLowerCase().includes(input.toLocaleLowerCase())),
+        products: data.products.filter((item) => item.title.toLocaleLowerCase().includes(input.toLocaleLowerCase())),
+        suggestion_terms: data.suggestion_terms.filter((item) => item.title.toLocaleLowerCase().includes(input.toLocaleLowerCase())),
       })
     } else {
       setSuggestions({
@@ -61,26 +68,33 @@ const SuggestionBox: React.FC = () => {
     }
   };
 
-  console.log('suggestion_terms', suggestions.suggestion_terms);
+  const handleClickResultSuggestion = (title: string = '') => {
+    setValueSearch(title);
+    setSuggestions({
+      collections: [],
+      products: [],
+      suggestion_terms: [],
+    });
+  }
 
   return (
-    <div className="suggestion-box">
-      <SearchBox onInputChange={handleInputChange} />
+    <SuggestionBoxStyled className="suggestion-box">
+      <InputType value={valueSearch} type='text' label='' isIcon={true} placeholder='Type to search ...' onInputChange={handleInputChange} />
       {/* Display the ResultBlock components based on settings */}
-      {showTerm && <ResultBlock type="Term" data={suggestions.suggestion_terms} />}
-      {showCollection && <ResultBlock type="Collection" data={suggestions.collections} />}
-      {showProduct && <ResultBlock type="Product" data={suggestions.products} />}
+      {showTerm && <ResultBlock type="Term" data={suggestions.suggestion_terms} onClick={handleClickResultSuggestion} />}
+      {showCollection && <ResultBlock type="Collection" data={suggestions.collections} onClick={handleClickResultSuggestion} />}
+      {showProduct && <ResultBlock type="Product" data={suggestions.products} onClick={handleClickResultSuggestion} />}
       <SettingsPanel
         showTerm={showTerm}
         showCollection={showCollection}
         showProduct={showProduct}
-        minChars={minChars}
+        minChars={Number(minChars)}
         setShowTerm={setShowTerm}
         setShowCollection={setShowCollection}
         setShowProduct={setShowProduct}
         setMinChars={setMinChars}
       />
-    </div>
+    </SuggestionBoxStyled>
   );
 };
 

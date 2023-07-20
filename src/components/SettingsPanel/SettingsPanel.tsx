@@ -1,6 +1,9 @@
 import React from 'react';
 import { styled } from 'styled-components';
 
+import { CheckBox } from '../CheckBox';
+import { InputType } from '../InputType';
+
 type SettingsPanelProps = {
   showTerm: boolean;
   showCollection: boolean;
@@ -9,11 +12,11 @@ type SettingsPanelProps = {
   setShowTerm: (value: boolean) => void;
   setShowCollection: (value: boolean) => void;
   setShowProduct: (value: boolean) => void;
-  setMinChars: (value: number) => void;
-}
+  setMinChars: (value: string) => void;
+};
 
 const SettingPanelStyled = styled.div`
-  width: 400px;
+  width: 280px;
   margin: 10px 0;
   background-color: #fff;
   overflow: hidden;
@@ -45,42 +48,42 @@ const SettingsPanel = ({
   return (
     <SettingPanelStyled className="settings-panel">
       <h3>Settings</h3>
-      <div>
-        <label htmlFor="showTerm">Show Term</label>
-        <input
-          type="checkbox"
-          id="showTerm"
-          checked={showTerm}
-          onChange={() => setShowTerm(!showTerm)}
-        />
-      </div>
-      <div>
-        <label htmlFor="showCollection">Show Collection</label>
-        <input
-          type="checkbox"
-          id="showCollection"
-          checked={showCollection}
-          onChange={() => setShowCollection(!showCollection)}
-        />
-      </div>
-      <div>
-        <label htmlFor="showProduct">Show Product</label>
-        <input
-          type="checkbox"
-          id="showProduct"
-          checked={showProduct}
-          onChange={() => setShowProduct(!showProduct)}
-        />
-      </div>
-      <div>
-        <label htmlFor="minChars">Minimum Characters for Suggestions</label>
-        <input
-          type="number"
-          id="minChars"
-          value={minChars}
-          onChange={(e) => setMinChars(Number(e.target.value))}
-        />
-      </div>
+      <CheckBox
+        value={showTerm.toString()}
+        checked={showTerm}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>, value: string) =>
+          setShowTerm(!showTerm)
+        }
+        label={'Show Term'}
+        name={'term'}
+      />
+      <CheckBox
+        value={showCollection.toString()}
+        checked={showCollection}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>, value: string) =>
+          setShowCollection(!showCollection)
+        }
+        label={'Show Collection'}
+        name={'show_collection'}
+      />
+      <CheckBox
+        value={showProduct.toString()}
+        checked={showProduct}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>, value: string) =>
+          setShowProduct(!showProduct)
+        }
+        label={'Show Product'}
+        name={'show_product'}
+      />
+      <InputType
+        value={Number(minChars)}
+        type="number"
+        label="Minimum Characters for Suggestions"
+        isIcon={false}
+        placeholder=""
+        onInputChange={setMinChars}
+        width='260px'
+      />
     </SettingPanelStyled>
   );
 };
