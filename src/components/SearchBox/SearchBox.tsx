@@ -6,8 +6,8 @@ type SearchBoxProps = {
 }
 
 const SearchBoxStyled = styled.div`
-  width: 420px;
-	height: 50px;
+  width: 375px;
+  height: 40px;
 	background-color: #242628;
 	position: relative;
 	overflow: hidden;
@@ -30,13 +30,13 @@ const SearchBoxStyled = styled.div`
 	color: #242628;
 	outline: none;
 	border: none;
-	width: 50px;
-	height: 50px;
+	width: 40px;
+	height: 40px;
 	position: absolute;
 	right: 0;
 	top: 0;
 	cursor: pointer;
-	font-size: 30px;
+	font-size: 20px;
 }
 `;
 

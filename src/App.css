@@ -14,21 +14,3 @@ body {
   max-width: 500px;
   margin: 0 auto;
 }
-
-.result-block {
-  margin-bottom: 20px;
-}
-
-.settings-panel {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-top: 20px;
-}
-
-.settings-panel h3 {
-  margin-bottom: 10px;
-}
-
-.settings-panel div {
-  margin-bottom: 10px;
-}

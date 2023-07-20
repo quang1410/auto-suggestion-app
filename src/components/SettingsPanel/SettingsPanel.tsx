@@ -1,6 +1,7 @@
 import React from 'react';
+import { styled } from 'styled-components';
 
-interface SettingsPanelProps {
+type SettingsPanelProps = {
   showTerm: boolean;
   showCollection: boolean;
   showProduct: boolean;
@@ -11,7 +12,27 @@ interface SettingsPanelProps {
   setMinChars: (value: number) => void;
 }
 
-const SettingsPanel: React.FC<SettingsPanelProps> = ({
+const SettingPanelStyled = styled.div`
+  width: 400px;
+  margin: 10px 0;
+  background-color: #fff;
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-top: 20px;
+
+  h3 {
+    margin-bottom: 10px;
+  }
+
+  div {
+    margin-bottom: 10px;
+  }
+`;
+
+const SettingsPanel = ({
   showTerm,
   showCollection,
   showProduct,
@@ -20,9 +41,9 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
   setShowCollection,
   setShowProduct,
   setMinChars,
-}) => {
+}: SettingsPanelProps) => {
   return (
-    <div className="settings-panel">
+    <SettingPanelStyled className="settings-panel">
       <h3>Settings</h3>
       <div>
         <label htmlFor="showTerm">Show Term</label>
@@ -60,7 +81,7 @@ const SettingsPanel: React.FC<SettingsPanelProps> = ({
           onChange={(e) => setMinChars(Number(e.target.value))}
         />
       </div>
-    </div>
+    </SettingPanelStyled>
   );
 };
 
