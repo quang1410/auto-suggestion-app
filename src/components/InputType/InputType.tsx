@@ -1,6 +1,8 @@
 import React, { useId } from 'react';
 import { styled } from 'styled-components';
+
 import { device } from '../../utils/constantly';
+import IconSearch from '../widgets/IconSearch';
 
 type InputTypeProps = {
   onInputChange: (input: string) => void;
@@ -76,7 +78,7 @@ const InputType = (props: InputTypeProps) => {
       />
       {isIcon && (
         <button className="search-btn">
-          <i className="fas fa-search"></i>
+          <IconSearch />
         </button>
       )}
     </InputTypeStyled>

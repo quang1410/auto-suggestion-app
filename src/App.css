@@ -7,3 +7,9 @@
 body {
 	background-image: linear-gradient(to right, #4daf54, #3d8880);
 }
+
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

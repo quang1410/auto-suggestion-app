@@ -1,18 +1,13 @@
 import { styled } from 'styled-components';
-import { device } from '../../utils/constantly';
 
-type CardType = {
-  id?: string;
-  title?: string;
-  url?: string;
-  price?: string;
-  brand?: string;
-};
+import { device } from '../../utils/constantly';
+import ResultCard, { CardType } from './ResultCard';
 
 type ResultBlockProps = {
   type: string;
   data: CardType[];
   onClick?: (title: string) => void;
+  valueSearch?: string; 
 };
 
 const ResultBlockStyled = styled.div`
@@ -53,7 +48,8 @@ const ResultBlockStyled = styled.div`
   }
 `;
 
-const ResultBlock = ({ type, data, onClick }: ResultBlockProps) => {
+const ResultBlock = ({ type, data, onClick, valueSearch = '' }: ResultBlockProps) => {
+
   const handleClick = (title: string = '') => {
     onClick && onClick(title);
   };
@@ -62,18 +58,16 @@ const ResultBlock = ({ type, data, onClick }: ResultBlockProps) => {
     <ResultBlockStyled>
       {data.length > 0 && <h3 className="result-title">{type}</h3>}
       {data &&
-        data.map(item => (
-          <div className="result-card" key={item.id} onClick={handleClick.bind(this, item.title)}>
-            {item.url && <img
-              src={item.url}
-              alt=""
-            />}
-            <div className="result-detail">
-              <span>{item.title}</span>
-              {item.brand && <p>{item.brand}</p>}
-              {item.price && <b>{`$${item.price}`}</b>}
-            </div>
-          </div>
+        data.map((item, index) => (
+          <ResultCard
+            key={`${index}`}
+            onClick={handleClick.bind(this, item.title)}
+            valueSearch={valueSearch}
+            url={item.url}
+            title={item.title}
+            brand={item.brand}
+            price={item.price}
+          />
         ))}
     </ResultBlockStyled>
   );
